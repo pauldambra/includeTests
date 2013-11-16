@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
 using Rhino.Mocks;
@@ -14,28 +8,8 @@ using Rhino.Mocks;
 namespace includeTests
 {
     [TestFixture]
-    public class Tests
+    public class RhinoMocksTests
     {
-        [Test]
-        public void CanDoDatabaseyThings()
-        {
-            var db = new TestContext();
-            db.Parents.Add(new Parent());
-            db.Parents.Should().NotBeEmpty();
-        }
-
-        [Test]
-        public void CanUseIncludeForReal()
-        {
-            var db = new TestContext();
-            var entity = new Parent();
-            entity.Children.Add(new Child());
-            db.Parents.Add(entity);
-            var parents = db.Parents.Include(p=>p.Children);
-            parents.Should().NotBeEmpty();
-            parents.First().Children.Should().NotBeEmpty();
-        }
-
         [Test]
         public void CanDoMockDatabaseyThings()
         {
@@ -52,7 +26,8 @@ namespace includeTests
 
             mockContext.Parents = mockParentSet;
 
-            mockContext.Parents.Should().NotBeEmpty();
+            mockContext.Parents.Select(p => p).Should().NotBeEmpty();
+            mockContext.Parents.Select(p => p).Should().HaveCount(1);
         }
 
         [Test]
@@ -87,11 +62,11 @@ namespace includeTests
 
             mockContext.Parents = mockParentSet;
             mockContext.Children = mockChildSet;
-
-            mockContext.Parents.Should().HaveCount(1);
-            mockContext.Children.Should().HaveCount(1);
-
-            mockContext.Parents.First().Children.FirstOrDefault().Should().NotBeNull();
+//
+//            mockContext.Parents.Should().HaveCount(1);
+//            mockContext.Children.Should().HaveCount(1);
+//
+//            mockContext.Parents.First().Children.FirstOrDefault().Should().NotBeNull();
 
             var query = mockContext.Parents.Include(p=>p.Children).Select(pc => pc);
 
