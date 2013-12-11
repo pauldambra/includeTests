@@ -60,11 +60,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Child.cs" />
+    <Compile Include="AsyncMoqTests.cs" />
     <Compile Include="MoqTests.cs" />
     <Compile Include="Parent.cs" />
     <Compile Include="TestContext.cs" />
     <Compile Include="RhinoMocksTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestDbAsyncFangling.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
